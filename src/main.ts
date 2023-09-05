@@ -1,26 +1,20 @@
-import './style.css'
-import viteLogo from '/logo.svg'
-import typescriptLogo from './typescript.svg'
-import { setupCounter } from './counter'
+import { createApp } from 'vue'
+import App from './App.vue'
+import { setupRouter } from './router'
+import imi from '../chat/Main'
+import { setupAssets, setupScrollbarStyle } from './plugins'
+import { setupStore } from './store'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+async function bootstrap() {
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+  const app = createApp(App)
+  setupStore(app)
+  await setupRouter(app)
+  setupAssets()
 
-postMessage({ payload: 'removeLoading' }, '*')
+  setupScrollbarStyle()
+  app.use(imi, import.meta.env.VITE_GLOB_WS_URL)
+  app.mount('#app')
+}
+
+bootstrap()

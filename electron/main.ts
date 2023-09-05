@@ -11,7 +11,7 @@ process.env.DIST = join(__dirname, '../dist')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST, '../public')
 
 import { join } from 'path'
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow} from 'electron'
 
 let win: BrowserWindow | null
 // Here, you can also use other preload
@@ -40,6 +40,7 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(join(process.env.DIST, 'index.html'))
   }
+  win.webContents.openDevTools()
 }
 
 app.on('window-all-closed', () => {
