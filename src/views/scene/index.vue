@@ -1,31 +1,32 @@
 <script setup lang="ts">
-const { ipcRenderer } = require("electron");
-import { NButton, NCard, NGrid, NGridItem, NPopconfirm,NLayout,NLayoutContent } from 'naive-ui'
-import { computed, onMounted, ref } from 'vue'
+import { NButton, NCard, NGrid, NGridItem, NPopconfirm, NTabPane, NTabs } from 'naive-ui'
+import { onMounted, ref } from 'vue'
 import Add from './add.vue'
-import { deletePeople, getMyNovelChapter } from '@/api'
+import { deletePeople, getMyPeople, getToolTypeLists } from '@/api'
 import { SvgIcon } from '@/components/common'
-import { useAppStore ,useNovelStore} from '@/store'
-import Novel from './novel.vue'
-import { useBasicLayout } from '@/hooks/useBasicLayout'
+
 interface roleItem {
   desc: string
-  title: string
+  name: string
   id: number
 }
-const novelStore = useNovelStore()
 
 const roleList = ref<roleItem[]>([])
 
-function getMyNovelChapterLists() {
-  getMyNovelChapter({}).then((res) => {
-    const data:any = res.data
+const toolTypeData = ref<any[]>([])
+
+getToolTypeLists().then((res) => {
+  toolTypeData.value = res.data
+})
+function getMyPeopleList() {
+  getMyPeople().then((res) => {
+    const data = res.data.data
     roleList.value = data
   })
 }
 
 onMounted(() => {
-  getMyNovelChapterLists()
+    getMyPeopleList()
 })
 
 const addTool = ref()
@@ -35,53 +36,32 @@ const toolDetail = ref()
 function editTool(item) {
   addTool.value.edit(item)
 }
-
 function deleteToolAction(item) {
   deletePeople(item).then((res) => {
-    getMyNovelChapterLists()
+    getMyPeopleList()
   })
 }
 
 function toolDetailAction(id: any) {
-  // toolDetail.value.show(id)
-  ipcRenderer.send("openWindow","run/"+id);
+  toolDetail.value.show(id)
 }
-
-const appStore = useAppStore()
-
-
-const collapsed = computed(() => appStore.siderCollapsed)
-const { isMobile } = useBasicLayout()
-
-const getContainerClass = computed(() => {
-  
-  return [
-    'h-full',
-    { 'pl-[260px]': !isMobile.value && !collapsed.value },
-  ]
-})
-
-
 </script>
 
 <template>
   <div>
-    
-    <NLayout class="z-40 transition" :class="getContainerClass" has-sider>
-      <Novel></Novel>
-        <NLayoutContent class=""  style="height: 100vh;">
-         
-        <div class="p-4  w-full h-full">
-          <div class="flex justify-between items-center">
-            <h1 class="text-lg">
-            {{ novelStore.novel_name }}
-            </h1>
-            <Add ref="addTool" @fresh="getMyNovelChapterLists" />
-          </div>
+    <Detail ref="toolDetail" />
+    <NTabs
+      type="segment"
+      animated
+      default-value="my"
+    >
+      <NTabPane tab="我的" name="my">
+        <div class="px-4">
+          <Add ref="addTool" @fresh="getMyToolList" />
           <div class="tool-box w-full flex mt-2">
-            <NGrid cols="1 s:2 m:3" style="gap:0.5rem" responsive="screen">
+            <NGrid cols="3 s:4 m:5" class="p-2" style="gap:0.5rem" responsive="screen">
               <NGridItem v-for="item in roleList" :key="item.id">
-                <NCard class="hover" :title="item.title">
+                <NCard class="hover" :title="item.name">
                   <template #header-extra>
                     <SvgIcon class="text-2xl" icon="uil:edit" @click.stop="editTool(item)" />
                     <NPopconfirm
@@ -113,9 +93,52 @@ const getContainerClass = computed(() => {
             </NGrid>
           </div>
         </div>
-      </NLayoutContent>
-      </NLayout>
-      
+      </NTabPane>
+      <NTabPane tab="市场" name="marking">
+        <div class="px-4">
+          <NTabs
+            type="card"
+            animated
+            default-value="0"
+          >
+            <NTabPane
+              v-for="(panel, index) in toolTypeData"
+              :key="panel.id"
+              :tab="panel.name"
+              :name="index.toString()"
+            >
+              <div id="role_warp" class="flex flex-col w-full h-full">
+                <div class="flex user-header">
+                  <NGrid cols="2 s:3 m:4" style="gap:0.5rem" responsive="screen">
+                    <NGridItem v-for="item in panel.tool" :key="item.id">
+                      <NCard
+                        :title="item.name"
+                      >
+                        <template #header-extra>
+                          <!-- <SvgIcon class="text-xl" icon="ic:baseline-history" @click.stop="history(item)" /> -->
+                        </template>
+                        <div class="text-[#999] line-clamp-1 h-5">
+                          {{ item.desc }}
+                        </div>
+                        <template #action>
+                          <div class="flex justify-end">
+                            <NButton @click="toolDetailAction(item.id)">
+                              <template #icon>
+                                <SvgIcon icon="codicon:run-all" />
+                              </template>
+                            </NButton>
+                          </div>
+                        </template>
+                      </NCard>
+                    </NGridItem>
+                  </NGrid>
+                </div>
+              </div>
+            </NTabPane>
+          </NTabs>
+        </div>
+      </NTabPane>
+    </NTabs>
   </div>
 </template>
 

@@ -14,6 +14,7 @@ export function fetchChatAPI<T = any>(
   })
 }
 
+
 export function getRoleLists<T = any>() {
   return post<T>({
     url: 'api/ai/role/lists',
@@ -23,6 +24,12 @@ export function getRoleLists<T = any>() {
 export function getMyTool<T = any>() {
   return post<T>({
     url: 'api/tool/my',
+  })
+}
+
+export function getMyPeople<T = any>() {
+  return post<T>({
+    url: 'api/people/my',
   })
 }
 
@@ -281,6 +288,33 @@ export function deleteTool<T>(params: any) {
     data: params,
   })
 }
+export function deletePeople<T>(params: any) {
+  return post<T>({
+    url: 'api/tool/people',
+    data: params,
+  })
+}
+
+export function createPeople<T>(params: any) {
+  return post<T>({
+    url: 'api/people/create',
+    data: params,
+  })
+}
+
+export function editPeople<T>(params: any) {
+  return post<T>({
+    url: 'api/people/edit',
+    data: params,
+  })
+}
+
+export function deletPeople<T>(params: any) {
+  return post<T>({
+    url: 'api/people/delete',
+    data: params,
+  })
+}
 
 export function EdithatRole<T>(params: any) {
   return post<T>({
@@ -313,5 +347,40 @@ export function useExchange<T>(code: string) {
   return post<T>({
     url: 'api/exchange/use',
     data: { code },
+  })
+}
+
+export function addNovel<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/create',
+    data:params,
+  })
+}
+
+export function createNovelChapter<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/chapter/create',
+    data:params,
+  })
+}
+
+export function getMyNovelChapter<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/chapter/my',
+    data:params,
+  })
+}
+
+export function editNovelChapter<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/chapter/edit',
+    data:params,
+  })
+}
+
+export function myNovel<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/my',
+    data:params,
   })
 }

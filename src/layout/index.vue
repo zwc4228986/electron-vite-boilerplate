@@ -5,15 +5,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { computed, h, ref, watch } from 'vue'
 import Permission from './Permission.vue'
 import { SvgIcon } from '@/components/common'
-import { useAuthStore, useUserStore } from '@/store'
+import { useAuthStore } from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 
 const { isMobile } = useBasicLayout()
 
-const userStore = useUserStore()
-const uid: any = `${userStore.userInfo.id}-禁止涉政`
 const authStore = useAuthStore()
-
 
 const needPermission = computed(() => !authStore.token)
 
@@ -27,14 +24,14 @@ function renderIcon(icon: string, cl: string | null) {
 
 const menuOptions: MenuOption[] = [
   {
-    label: '对话',
+    label: '作品',
     key: 'chat',
-    icon: renderIcon('fluent:chat-32-regular', 'text-xl'),
+    icon: renderIcon('bi:collection-play-fill', 'text-2xl'),
   },
   {
-    label: '绘图',
-    key: 'draw',
-    icon: renderIcon('streamline:interface-edit-paint-color-colors-design-paint-painting-palette', 'text-xl'),
+    label: '人物',
+    key: 'people',
+    icon: renderIcon('octicon:people-24', 'text-2xl'),
   },
   // {
   //   label: '知识星球',
@@ -42,14 +39,14 @@ const menuOptions: MenuOption[] = [
   //   icon: renderIcon('bxs:planet', 'text-4xl'),
   // },
   {
-    label: '应用',
-    key: 'tool',
-    icon: renderIcon('carbon:tool-box', 'text-xl'),
+    label: '场景',
+    key: 'scene',
+    icon: renderIcon('bi:tablet-landscape', 'text-xl'),
   },
   {
     label: '我的',
     key: 'user',
-    icon: renderIcon('mingcute:user-1-line', 'text-xl'),
+    icon: renderIcon('mingcute:user-1-line', 'text-2xl'),
   },
 ]
 
@@ -102,16 +99,10 @@ watch(() => activeKey.value, (url, oldValue) => {
   // }
 })
 const collapsed = ref(true)
-
-const keepLiveRoute = ref([
-  '/chat',
-  '/draw/index',
-  '/draw',
-])
 </script>
 
 <template>
-  <NWatermark
+  <!-- <NWatermark
     :content="uid"
     cross
     fullscreen
@@ -123,7 +114,7 @@ const keepLiveRoute = ref([
     :x-offset="12"
     :y-offset="60"
     :rotate="-15"
-  />
+  /> -->
   <NLayout v-if="isMobile" class="h-full mobile-layout">
     <NLayoutContent style="height: calc(100% - 64px);">
       <router-view v-slot="{ Component }">
@@ -169,17 +160,13 @@ const keepLiveRoute = ref([
       </NLayoutContent>
     </NLayout>
   </NLayout>
-
   <Permission :visible="needPermission" />
   <!-- <div class="h-full dark:bg-[#24272e] transition-all" :class="[isMobile ? 'p-0' : 'p-0']">
     <div v-if="!isMobile" class="flex  items-center justify-between p-2">
-
     </div>
-
     <div v-if="isMobile" class="flex   justify-center items-center">
       <NMenu v-model:value="activeKey" mode="horizontal" :options="menuOptions" />
     </div>
-
   </div> -->
 </template>
 

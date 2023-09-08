@@ -22,6 +22,42 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: '/run/:id',
+    name: 'run',  
+    component: () => import('@/views/index/run.vue'),
+  },
+  {
+    path: '/people',
+    name: 'people',
+    component: ChatLayout,
+    redirect: '/people/index',
+    children: [
+      {
+        path: '/people/index',
+        name: 'people/index',
+        meta: {
+          path: 'people',
+        },
+        component: () => import('@/views/people/index.vue'),
+      },
+    ],
+  },{
+    path: '/scene',
+    name: 'scene',
+    component: ChatLayout,
+    redirect: '/scene/index',
+    children: [
+      {
+        path: '/scene/index',
+        name: 'scene/index',
+        meta: {
+          path: 'scene',
+        },
+        component: () => import('@/views/scene/index.vue'),
+      },
+    ],
+  },
+  {
     path: '/404',
     name: '404',
     component: () => import('@/views/exception/404/index.vue'),
