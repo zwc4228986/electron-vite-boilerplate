@@ -363,6 +363,18 @@ export function createNovelChapter<T>(params: any) {
     data:params,
   })
 }
+export function saveNovelChapter<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/chapter/save-all',
+    data:params,
+  })
+}
+export function NovelChapterDetail<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/chapter/content/detail',
+    data:params,
+  })
+}
 
 export function getMyNovelChapter<T>(params: any) {
   return post<T>({

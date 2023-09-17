@@ -3,7 +3,8 @@ import { ss } from '@/utils/storage'
 const LOCAL_NAME = 'SECRET_TOKEN'
 
 export function getToken() {
-  return ss.get(LOCAL_NAME)
+  // return ss.get(LOCAL_NAME)
+  return 16937981739637;
 }
 
 export function setToken(token: string) {

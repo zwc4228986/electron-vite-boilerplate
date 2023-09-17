@@ -57,7 +57,7 @@ function toolDetailAction(id: any) {
     >
       <NTabPane tab="我的" name="my">
         <div class="px-4">
-          <Add ref="addTool" @fresh="getMyToolList" />
+          <Add ref="addTool" @fresh="getMyPeopleList" />
           <div class="tool-box w-full flex mt-2">
             <NGrid cols="3 s:4 m:5" class="p-2" style="gap:0.5rem" responsive="screen">
               <NGridItem v-for="item in roleList" :key="item.id">

@@ -1,0 +1,461 @@
+{
+    "canvas_config": {
+        "height": 100,
+        "ratio": "original",
+        "width": 100
+    },
+    "color_space": 0,
+    "config": {
+        "adjust_max_index": 1,
+        "attachment_info": [],
+        "combination_max_index": 1,
+        "export_range": null,
+        "extract_audio_last_index": 1,
+        "lyrics_recognition_id": "",
+        "lyrics_sync": true,
+        "lyrics_taskinfo": [],
+        "maintrack_adsorb": true,
+        "material_save_mode": 0,
+        "original_sound_last_index": 1,
+        "record_audio_last_index": 1,
+        "sticker_max_index": 1,
+        "subtitle_recognition_id": "",
+        "subtitle_sync": true,
+        "subtitle_taskinfo": [],
+        "system_font_list": [],
+        "video_mute": false,
+        "zoom_info_params": null
+    },
+    "cover": null,
+    "create_time": 0,
+    "duration": 2100000,
+    "extra_info": null,
+    "fps": 30.0,
+    "free_render_index_mode_on": false,
+    "group_container": null,
+    "id": "7AFA7B95-C95C-4046-8EEB-6F7637018D41",
+    "keyframe_graph_list": [],
+    "keyframes": {
+        "adjusts": [],
+        "audios": [],
+        "effects": [],
+        "filters": [],
+        "handwrites": [],
+        "stickers": [],
+        "texts": [],
+        "videos": []
+    },
+    "last_modified_platform": {
+        "app_id": 3704,
+        "app_source": "lv",
+        "app_version": "4.4.0",
+        "device_id": "d15b08681dddc03d65f67f35fd83791a",
+        "hard_disk_id": "07b39c67eb7c4970e0a070ca642b472b",
+        "mac_address": "ea600026abb36cf9b5b9fbc5e891bfdf",
+        "os": "windows",
+        "os_version": "10.0.22621"
+    },
+    "materials": {
+        "audio_balances": [],
+        "audio_effects": [],
+        "audio_fades": [],
+        "audios": [],
+        "beats": [],
+        "canvases": [
+            {
+                "album_image": "",
+                "blur": 0.0,
+                "color": "",
+                "id": "626A7A9B-C2B5-4abb-AC9D-4D1F580540D1",
+                "image": "",
+                "image_id": "",
+                "image_name": "",
+                "source_platform": 0,
+                "team_id": "",
+                "type": "canvas_color"
+            }
+        ],
+        "chromas": [],
+        "color_curves": [],
+        "digital_humans": [],
+        "drafts": [],
+        "effects": [],
+        "green_screens": [],
+        "handwrites": [],
+        "hsl": [],
+        "images": [],
+        "log_color_wheels": [],
+        "manual_deformations": [],
+        "masks": [],
+        "material_animations": [],
+        "material_colors": [],
+        "placeholders": [],
+        "plugin_effects": [],
+        "primary_color_wheels": [],
+        "realtime_denoises": [],
+        "shapes": [],
+        "smart_crops": [],
+        "sound_channel_mappings": [
+            {
+                "audio_channel_mapping": 0,
+                "id": "779F6BB5-EDF1-4a11-B613-1031D484C15B",
+                "is_config_open": false,
+                "type": "none"
+            }
+        ],
+        "speeds": [
+            {
+                "curve_speed": null,
+                "id": "CD2CE8D5-BE71-4f48-8C25-28F4C6C3F344",
+                "mode": 0,
+                "speed": 1.0,
+                "type": "speed"
+            }
+        ],
+        "stickers": [],
+        "tail_leaders": [],
+        "text_templates": [],
+        "texts": [],
+        "transitions": [],
+        "video_effects": [],
+        "video_trackings": [],
+        "videos": [
+            {
+                "audio_fade": null,
+                "cartoon_path": "",
+                "category_id": "",
+                "category_name": "",
+                "check_flag": 63487,
+                "crop": {
+                    "lower_left_x": 0.0,
+                    "lower_left_y": 1.0,
+                    "lower_right_x": 1.0,
+                    "lower_right_y": 1.0,
+                    "upper_left_x": 0.0,
+                    "upper_left_y": 0.0,
+                    "upper_right_x": 1.0,
+                    "upper_right_y": 0.0
+                },
+                "crop_ratio": "free",
+                "crop_scale": 1.0,
+                "duration": 10800000000,
+                "extra_type_option": 0,
+                "formula_id": "",
+                "freeze": null,
+                "gameplay": null,
+                "has_audio": false,
+                "height": 512,
+                "id": "6e3443fc-9f50-25ef-ba91-150c520ac267",
+                "intensifies_audio_path": "",
+                "intensifies_path": "",
+                "is_ai_generate_content": false,
+                "is_unified_beauty_mode": false,
+                "local_id": "",
+                "local_material_id": "",
+                "material_id": "",
+                "material_name": "1_0_sd_1694617853448.png",
+                "material_url": "",
+                "matting": {
+                    "flag": 0,
+                    "has_use_quick_brush": false,
+                    "has_use_quick_eraser": false,
+                    "interactiveTime": [],
+                    "path": "",
+                    "strokes": []
+                },
+                "media_path": "",
+                "object_locked": null,
+                "origin_material_id": "",
+                "path": "J:/BaiduNetdiskDownload/sucai/imgs/1_0_sd_1694617853448.png",
+                "picture_from": "none",
+                "picture_set_category_id": "",
+                "picture_set_category_name": "",
+                "request_id": "",
+                "reverse_intensifies_path": "",
+                "reverse_path": "",
+                "smart_motion": null,
+                "source": 0,
+                "source_platform": 0,
+                "stable": null,
+                "team_id": "",
+                "type": "photo",
+                "video_algorithm": {
+                    "algorithms": [
+                        {
+                            "name": "original",
+                            "type": 5
+                        }
+                    ],
+                    "deflicker": null,
+                    "motion_blur_config": null,
+                    "noise_reduction": null,
+                    "path": "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/videoAlg/6a1b3bc47726a31d55e0d9f33d56db6a_0_5100000.png",
+                    "time_range": {
+                        "duration": 5100000,
+                        "start": 0
+                    }
+                },
+                "width": 512
+            }
+        ]
+    },
+    "mutable_config": null,
+    "name": "",
+    "new_version": "79.0.0",
+    "platform": {
+        "app_id": 3704,
+        "app_source": "lv",
+        "app_version": "4.2.1",
+        "device_id": "75644bdee73eee451eeaed3b0f8193ab",
+        "hard_disk_id": "d74be8841ea0811ef6ce20d55fdaaeb9",
+        "mac_address": "31f2e59a3d2f5e54806f838d133b8aa4",
+        "os": "windows",
+        "os_version": "10.0.22621"
+    },
+    "relationships": [],
+    "render_index_track_mode_on": false,
+    "retouch_cover": null,
+    "source": "default",
+    "static_cover_image_path": "",
+    "tracks": [
+        {
+            "attribute": 0,
+            "flag": 0,
+            "id": "536185F2-FA85-40ba-8BC2-5509EF241E15",
+            "segments": [],
+            "type": "video"
+        },
+        {
+            "attribute": 0,
+            "flag": 2,
+            "id": "29DF5E98-2951-449a-B9A9-5843D838DFB3",
+            "segments": [
+                {
+                    "cartoon": false,
+                    "clip": {
+                        "alpha": 1.0,
+                        "flip": {
+                            "horizontal": false,
+                            "vertical": false
+                        },
+                        "rotation": 0.0,
+                        "scale": {
+                            "x": 5.0,
+                            "y": 5.0
+                        },
+                        "transform": {
+                            "x": 0.0,
+                            "y": 0.3
+                        }
+                    },
+                    "common_keyframes": [
+                        {
+                            "id": "505dbee1-13fa-8161-c4fd-412afd55a5be",
+                            "keyframe_list": [
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "a5e45873-47d4-c076-0cfd-a3c81d5dc87d",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": 0,
+                                    "values": [
+                                        0.0
+                                    ]
+                                },
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "0CBE3800-3367-415e-9549-3F3E17491EB5",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": 1566666,
+                                    "values": [
+                                        0.0
+                                    ]
+                                },
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "5a68cee9-3385-386a-011f-d8027e2a5a4a",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": 2099000,
+                                    "values": [
+                                        0.0
+                                    ]
+                                }
+                            ],
+                            "material_id": "",
+                            "property_type": "KFTypePositionX"
+                        },
+                        {
+                            "id": "454f25bc-f8c6-63b9-3ccb-498936e35fac",
+                            "keyframe_list": [
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "402ef89d-12ac-ca6b-9e01-33f65e2faff7",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": 0,
+                                    "values": [
+                                        0.0
+                                    ]
+                                },
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "DAB72C33-4C13-4174-A840-38D53C71256C",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": 1566666,
+                                    "values": [
+                                        0.3
+                                    ]
+                                },
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "35c70246-a7ef-4111-ae7d-267e27583123",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": 2099000,
+                                    "values": [
+                                        0.4
+                                    ]
+                                }
+                            ],
+                            "material_id": "",
+                            "property_type": "KFTypePositionY"
+                        },
+                        {
+                            "id": "AD6878B6-A8BE-4afb-96A0-321427683E91",
+                            "keyframe_list": [
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "D37CE0A8-85E6-424e-8FD2-46AC71807D99",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": 0,
+                                    "values": [
+                                        1.3
+                                    ]
+                                },
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "EE18847B-D4E1-475c-B8C7-3380179B1E4D",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": 2099000,
+                                    "values": [
+                                        1.3
+                                    ]
+                                }
+                            ],
+                            "material_id": "",
+                            "property_type": "KFTypeScaleX"
+                        }
+                    ],
+                    "enable_adjust": true,
+                    "enable_color_curves": true,
+                    "enable_color_wheels": true,
+                    "enable_lut": true,
+                    "enable_smart_color_adjust": false,
+                    "extra_material_refs": [
+                        "CD2CE8D5-BE71-4f48-8C25-28F4C6C3F344",
+                        "626A7A9B-C2B5-4abb-AC9D-4D1F580540D1",
+                        "779F6BB5-EDF1-4a11-B613-1031D484C15B"
+                    ],
+                    "group_id": "",
+                    "hdr_settings": {
+                        "intensity": 1.0,
+                        "mode": 1,
+                        "nits": 1000
+                    },
+                    "id": "a85e854d-6eb5-8db4-31ea-a2e73d65ed52",
+                    "intensifies_audio": false,
+                    "is_placeholder": false,
+                    "is_tone_modify": false,
+                    "keyframe_refs": [],
+                    "last_nonzero_volume": 1.0,
+                    "material_id": "6e3443fc-9f50-25ef-ba91-150c520ac267",
+                    "render_index": 1,
+                    "reverse": false,
+                    "source_timerange": {
+                        "duration": 2100000,
+                        "start": 0
+                    },
+                    "speed": 1.0,
+                    "target_timerange": {
+                        "duration": 2100000,
+                        "start": 0
+                    },
+                    "template_id": "",
+                    "template_scene": "default",
+                    "track_attribute": 0,
+                    "track_render_index": 0,
+                    "uniform_scale": {
+                        "on": true,
+                        "value": 1.0
+                    },
+                    "visible": true,
+                    "volume": 1.0
+                }
+            ],
+            "type": "video"
+        }
+    ],
+    "update_time": 0,
+    "version": 360000
+}
