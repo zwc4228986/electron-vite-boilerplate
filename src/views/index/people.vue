@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NButton, NCard, NGrid, NGridItem, NPopconfirm, NTabPane, NTabs } from 'naive-ui'
+import { NButton, NCard, NGrid, NGridItem, NPopconfirm, NDrawerContent,NDrawer } from 'naive-ui'
 import { onMounted, ref } from 'vue'
 import Add from './add.vue'
 import { deletePeople, getMyPeople, getToolTypeLists } from '@/api'
@@ -46,17 +46,25 @@ function deleteToolAction(item) {
 function toolDetailAction(id: any) {
   toolDetail.value.show(id)
 }
+const showInner = ref(false)
+
+function show(item) {
+  // form.value.id = item.id
+  // form.value.title = item.title
+  showInner.value = true
+}
+
+defineExpose({
+  show,
+})
+
 </script>
 
 <template>
   <div>
     <Detail ref="toolDetail" />
-    <NTabs
-      type="segment"
-      animated
-      default-value="my"
-    >
-      <NTabPane tab="我的" name="my">
+    <NDrawer v-model:show="showInner" width="100%" placement="right">
+      <NDrawerContent :title="title" closable>
         <div class="px-4">
           <Add ref="addTool" @fresh="getMyPeopleList" />
           <div class="tool-box w-full flex mt-2">
@@ -94,52 +102,8 @@ function toolDetailAction(id: any) {
             </NGrid>
           </div>
         </div>
-      </NTabPane>
-      <NTabPane tab="市场" name="marking">
-        <div class="px-4">
-          <NTabs
-            type="card"
-            animated
-            default-value="0"
-          >
-            <NTabPane
-              v-for="(panel, index) in toolTypeData"
-              :key="panel.id"
-              :tab="panel.name"
-              :name="index.toString()"
-            >
-              <div id="role_warp" class="flex flex-col w-full h-full">
-                <div class="flex user-header">
-                  <NGrid cols="2 s:3 m:4" style="gap:0.5rem" responsive="screen">
-                    <NGridItem v-for="item in panel.tool" :key="item.id">
-                      <NCard
-                        :title="item.name"
-                      >
-                        <template #header-extra>
-                          <!-- <SvgIcon class="text-xl" icon="ic:baseline-history" @click.stop="history(item)" /> -->
-                        </template>
-                        <div class="text-[#999] line-clamp-1 h-5">
-                          {{ item.desc }}
-                        </div>
-                        <template #action>
-                          <div class="flex justify-end">
-                            <NButton @click="toolDetailAction(item.id)">
-                              <template #icon>
-                                <SvgIcon icon="codicon:run-all" />
-                              </template>
-                            </NButton>
-                          </div>
-                        </template>
-                      </NCard>
-                    </NGridItem>
-                  </NGrid>
-                </div>
-              </div>
-            </NTabPane>
-          </NTabs>
-        </div>
-      </NTabPane>
-    </NTabs>
+        </NDrawerContent>
+        </NDrawer>
   </div>
 </template>
 
@@ -238,3 +202,5 @@ text-overflow: ellipsis;
 white-space: nowrap;
 }
 </style>
+
+

@@ -27,9 +27,11 @@ export function getMyTool<T = any>() {
   })
 }
 
-export function getMyPeople<T = any>() {
+export function getMyPeople<T = any>(params: any) {
+  const data = params
   return post<T>({
     url: 'api/people/my',
+    data,
   })
 }
 
@@ -357,28 +359,16 @@ export function addNovel<T>(params: any) {
   })
 }
 
-export function createNovelChapter<T>(params: any) {
+export function editNovel<T>(params: any) {
   return post<T>({
-    url: 'api/novel/chapter/create',
-    data:params,
-  })
-}
-export function saveNovelChapter<T>(params: any) {
-  return post<T>({
-    url: 'api/novel/chapter/save-all',
-    data:params,
-  })
-}
-export function NovelChapterDetail<T>(params: any) {
-  return post<T>({
-    url: 'api/novel/chapter/content/detail',
+    url: 'api/novel/edit',
     data:params,
   })
 }
 
-export function getMyNovelChapter<T>(params: any) {
+export function createNovelChapter<T>(params: any) {
   return post<T>({
-    url: 'api/novel/chapter/my',
+    url: 'api/novel/chapter/create',
     data:params,
   })
 }
@@ -390,9 +380,44 @@ export function editNovelChapter<T>(params: any) {
   })
 }
 
+export function saveNovelChapter<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/chapter/save-all',
+    data:params,
+  })
+}
+export function NovelChapterContentDetail<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/chapter/content/detail',
+    data:params,
+  })
+}
+
+export function NovelChapterDetail<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/chapter/detail',
+    data:params,
+  })
+}
+
+export function getMyNovelChapter<T>(params: any) {
+  return post<T>({
+    url: 'api/novel/chapter/my',
+    data:params,
+  })
+}
+
+
 export function myNovel<T>(params: any) {
   return post<T>({
     url: 'api/novel/my',
+    data:params,
+  })
+}
+
+export function getVoiceLists<T>(params: any) {
+  return post<T>({
+    url: 'api/voice/lists',
     data:params,
   })
 }

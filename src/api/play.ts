@@ -49,7 +49,6 @@ async function getTTSData(
   // ipcRenderer.send("log.info", SSML);
   // console.log(SSML);
   if (api == 1) {
-    
     const result = await retrySpeechInvocation(SSML, retryCount, retryInterval * 1000);
     console.log(333333);
     return result;
@@ -61,9 +60,10 @@ async function getTTSData(
     return result;
   }
 }
+
 async function retrySpeechInvocation(SSML: string, retryCount: number, delay: number) {
   let retry = 0;
-  while (retry < retryCount) {
+  while (retry < retryCount){
     try {
       console.log("Speech invocation attempt", retry + 1);
       const result = await ipcRenderer.invoke("speech", SSML);
@@ -72,8 +72,6 @@ async function retrySpeechInvocation(SSML: string, retryCount: number, delay: nu
       // console.error("Speech invocation failed:", error);
       await sleep(delay); // 暂停一段时间后再重试
     }
-
-    
     retry++;
   }
   return false;

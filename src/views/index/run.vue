@@ -1,6 +1,9 @@
 <template>
   <div class="w-full">
     <imageDialog ref="imageDialogRef"></imageDialog>
+    <div>
+        
+    </div>
   <div class=" bg-white flex justify-between p-4"> 
       <div>
         <NButton @click="createJyCache()" :loading="createJyCacheLoading">生成剪映缓存</NButton>
@@ -10,18 +13,24 @@
 
       <div>
         <NButton @click="save()">保存</NButton>
+        <NButton @click="setting()">配置</NButton>
       </div>
   </div>
+  <Set ref="settingRef"/>
+  
+
   <div class="w-full overflow-x-auto">
     <NTable  :single-line="false">
       <thead>
+
         <tr>
           <th>序号</th>
-          <th style="min-width: 400px;">旁白台词</th>
+          <th style="min-width: 500px;">旁白台词</th>
           <th style="min-width: 300px;">生图描述词</th>
           <th style="max-width: 100px;">功能</th>
           <th style="width: 200px;">使用图片</th>
           <th style="min-width: 300px;">小图预览</th>
+          <th style="min-width: 200px;">关键帧</th>
         </tr>
       </thead>
       <tbody>
@@ -49,10 +58,10 @@
               </NButton>
           </NButtonGroup>
             </div>
-            
+
           </td>
           <td>
-            <word v-model:value="item.word" @parentCreateAudio="createAudio"></word>
+            <word :roleList="roleList" v-model:value="item.word" @parentCreateAudio="createAudio"></word>
             <!-- <audio v-for="audio in item.audio" :src="audio[0]"></audio> -->
             <!-- <NInput :rows="6"  type="textarea" placeholder="旁白台词" v-model:value="item.word" /> -->
           </td>
@@ -84,7 +93,7 @@
           </td>
           <td>
             <div class="flex flex-wrap">
-                <template v-for="(v,i) in item.imgs" >
+                <template v-for="(v,i) in item.imgs">
                   <div v-if="i !== item.select_index"  class="image-box">
                     <div class="image-action">
                     <NButton size="tiny" type="primary">
@@ -103,25 +112,27 @@
               </template>
             </div>
           </td>
+          <td>
+            <NSelect v-model:value="item.keyframe" placeholder="关键帧" :options="keyframeOptions" label-field="name" value-field="key" ></NSelect>
+          </td>
         </tr>
       </tbody>
     </NTable>
   </div>
 </div>
-
 </template>
 
 <script setup lang="ts">
-import { saveNovelChapter,NovelChapterDetail, getMyPeople } from "@/api";
+import { saveNovelChapter,NovelChapterDetail, getMyPeople, NovelChapterContentDetail } from "@/api";
 import getTTSData from "@/api/play";
 import word from "./component/word.vue"
+import Set from "./component/setting.vue"
 import imageDialog from "./component/image.vue"
 import { txt2img ,hdImage} from "@/api/sd";
 import { SvgIcon } from '@/components/common'
 import { NTable, NButton, NInput, NImage,NImageGroup,NForm,NButtonGroup,NSelect,NFormItem,NDynamicInput} from "naive-ui";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import {useRoute}  from "vue-router"
-import { preview } from "vite";
 // import { app} from 'electron'
 const fs = require("fs");
 const path = require("path");
@@ -137,21 +148,29 @@ interface roleItem {
 
 const roleList = ref<roleItem[]>([])
 
-function getMyPeopleList() {
+const aiDrawData = ref<DataItem[]>([]);
+let novel_chapter_id ;
 
-  getMyPeople().then((res) => {
-    const data = res.data.data
+onMounted(() => {
+  novel_chapter_id = useRoute().params.id;
+  getChapterDetail()
+  getNovelChapterContentDetail()
+  
+})
+
+let novel_id = 0;
+
+function getMyPeopleList() {
+  getMyPeople({novel_id:novel_id}).then((res) => {
+    const data = res.data
     roleList.value = data
   })
-
 }
 
-const aiDrawData = ref<DataItem[]>([]);
-const novel_chapter_id = useRoute().params.id;
-
-function getDetail(){
-  NovelChapterDetail({novel_chapter_id}).then(res=>{
+function getNovelChapterContentDetail(){
+  NovelChapterContentDetail({novel_chapter_id}).then(res=>{
      let data:any = res.data;
+     novel_id = data.novel_id;
      console.log(data)
       aiDrawData.value = data;
       if(data.length == 0){
@@ -160,11 +179,31 @@ function getDetail(){
   })
 }
 
-onMounted(() => {
-  getDetail()
-  getMyPeopleList()
-}),
+const chapterData = ref({})
 
+function getChapterDetail(){
+  NovelChapterDetail({novel_chapter_id}).then(res=>{
+     let data:any = res.data;
+     novel_id = data.novel_id;
+     chapterData.value = data
+     getMyPeopleList()
+    //  console.log(data)
+     
+  })
+}
+
+const settingRef = ref()
+
+function setting(){
+  console.log(settingRef.value)
+  settingRef.value.show(chapterData.value)
+}
+
+// onMounted(() => {
+//   console.log(111);
+//   getChapterDetail()
+//   getNovelChapterContentDetail()
+// }),
 
 ipcRenderer.invoke('getAppPath').then((resul) => {
   BASE_DIR=resul;
@@ -173,12 +212,10 @@ ipcRenderer.invoke('getAppPath').then((resul) => {
   saveImageFromUrl(imagePath, targetFolder);
 })
 
-
 interface img {
   path:string,
   width:number,
   height:number,
- 
   zoom:number,
   zoom_path:string,
   selected:boolean
@@ -192,6 +229,7 @@ interface word{
 interface DataItem {
   txt: string;
   lora_ids:any
+  keyframe:string
   uuid: string;
   select_index:number,
   word: word[];
@@ -206,8 +244,6 @@ function getSelectImage(imgList,obj = 'path') {
   }
   return '';
 }
-
-
 
 function selectImage(arr,i){
     // 遍历数组中的每个元素
@@ -439,6 +475,39 @@ const imageDialogRef = ref()
 function previewImage(image){
   imageDialogRef.value.show(image)
 }
+
+const keyframeOptions = ref([
+{
+    key:'none',
+    name:'无',
+    id:1,
+},
+  {
+    key:'up-down',
+    name:'从上到下',
+    id:1,
+},{
+  key:'down-up',
+    name:'从下到上',
+    id:2,
+},{
+  key:'big-small',
+    name:'从大到小',
+    id:2,
+},{
+  key:'small-big',
+    name:'从小到大',
+    id:2,
+},{
+    key:'left-right',
+    name:'从左到右',
+    id:2,
+},{
+    key:'right-left',
+    name:'从右到左',
+    id:2,
+},
+])
 </script>
 <style scoped>
 .image-box {

@@ -23,7 +23,7 @@ import { app, BrowserWindow, ipcMain, protocol, net } from "electron";
 import api from "./utils/api";
 console.log(app.getAppPath());
 
-let win: BrowserWindow | null;
+let win;
 // Here, you can also use other preload
 const preload = join(__dirname, "./preload.js");
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
@@ -83,22 +83,57 @@ app
     //   // 返回数据给渲染进程
     //   // event.reply('data', data);
     // });
-    ipcMain.on("openWindow", function (event, arg) {
-      console.log(arg);
-      //调用 BrowserWindow打开新窗口
-      const win2 = new BrowserWindow({
-        // width:400,
-        // height:300,
-        webPreferences: {
-          devTools: true,
-          webSecurity: false,
-          nodeIntegration: true,
-          contextIsolation: false,
-        },
-      });
-      win2.loadURL(_url + "#" + arg);
-      win2.webContents.openDevTools();
+    const win2 = new BrowserWindow({
+      parent:win,
+      show: false,
+      
+      // width:400,
+      // height:300,
+      webPreferences: {
+        devTools: true,
+        webSecurity: false,
+        nodeIntegration: true,
+        contextIsolation: false,
+        preload,
+      },
     });
+
+    ipcMain.on("openWindow", function (event, arg) {
+
+
+      win2.loadURL(_url + "#" + arg).then(res=>{
+        if(!win2.isVisible()){
+              win2.show();
+              win2.reload();
+          }else{
+            win2.reload();
+          }
+      });
+      
+
+      win2.webContents.openDevTools();
+
+
+     
+      // console.log(arg);
+      // //调用 BrowserWindow打开新窗口
+      // console.log(win2.webContents.getURL());
+    });
+
+
+    win2.on('close', (event) => {
+      
+      // 阻止默认的关闭行为
+      event.preventDefault();
+      console.log('Window close event prevented');
+    
+      // 隐藏窗口
+      win2.hide();
+    
+      // 在这里执行一些其他操作
+    });
+    
+
 
     ipcMain.handle("speech", async (event, ssml) => {
       console.log(ssml);
@@ -180,9 +215,9 @@ app
 
       let jsonData: any = {
         canvas_config: {
-          height: 1920,
-          ratio: "9:16",
-          width: 1080,
+          "height": 1920,
+        "ratio": "original",
+        "width": 1920
         },
         color_space: 0,
         config: {
@@ -682,7 +717,7 @@ app
               text_templates: [],
             },
             content:
-              '<useLetterColor><size=12><color=(0.96863,0.74118,0.0039216,1)><font id="7260808713844298295" path="/Users/anviz/Library/Containers/com.lemon.lvpro/Data/Movies/JianyingPro/User Data/Cache/effect/19366221/dd565912c20ce61f6f71a33bcb30faf8/优设标题圆.otf">[' +
+              '<useLetterColor><size=10><color=(0.96863,0.74118,0.0039216,1)><font id="7260808713844298295" path="/Users/anviz/Library/Containers/com.lemon.lvpro/Data/Movies/JianyingPro/User Data/Cache/effect/19366221/dd565912c20ce61f6f71a33bcb30faf8/优设标题圆.otf">[' +
               w.word +
               "]</font></color></size></useLetterColor>",
             fixed_height: -1.0,
@@ -771,7 +806,7 @@ app
               },
               transform: {
                 x: 0.0,
-                y: -0.47,
+                y: -0.50,
               },
             },
             common_keyframes: [],
@@ -902,6 +937,34 @@ app
           width: 512,
         });
 
+         let scale_x = 1.2;
+         let scale_y = 1.2;
+          let KFTypePositionY:number[] = [0,0]
+          let KFTypePositionX:number[] = [0,0]
+          let KFTypeScaleX:number[] = [scale_x,scale_x]
+          let KFTypeScaleY:number[] = [scale_y,scale_y]
+        if(element.keyframe == 'down-up'){
+           KFTypePositionY = [-0.1, 0.1];
+        }else if(element.keyframe == 'up-download'){
+       
+          KFTypePositionY = [0.1, -0.1];
+        }else if(element.keyframe == 'left-right'){
+    
+          KFTypePositionX = [-0.1, 0.1];
+        }else if(element.keyframe == 'right-left'){
+          KFTypePositionX = [0.1, -0.1];
+        }else if(element.keyframe == 'big-small'){
+          scale_x = 1.2
+          scale_y = 1.2
+          KFTypeScaleX = [1.2,1]
+          KFTypeScaleY = [1.2,1]
+        }else if(element.keyframe == 'small-big'){
+          scale_x = 1
+          scale_y = 1
+          KFTypeScaleX = [1,1.2]
+          KFTypeScaleY = [1,1.2]
+        }
+
         jsonData.tracks[0].segments.push({
           cartoon: false,
           clip: {
@@ -912,8 +975,8 @@ app
             },
             rotation: 0.0,
             scale: {
-              x: 1.1,
-              y: 1.1,
+              x: scale_x,
+              y: scale_y,
             },
             transform: {
               x: 0.0,
@@ -937,7 +1000,7 @@ app
                                     },
                                     "time_offset": 0,
                                     "values": [
-                                        0.0
+                                      KFTypePositionY[0]
                                     ]
                                 },
                                 {
@@ -954,12 +1017,52 @@ app
                                     },
                                     "time_offset": v_duration,
                                     "values": [
-                                        0.3
+                                      KFTypePositionY[1]
                                     ]
                                 }
                             ],
                             "material_id": "",
                             "property_type": "KFTypePositionY"
+          },{
+                            "id": "454f25bc-f8c6-63b9-3ccb-498936e35fac",
+                            "keyframe_list": [
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "402ef89d-12ac-ca6b-9e01-33f65e2faff7",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": 0,
+                                    "values": [
+                                      KFTypePositionX[0]
+                                    ]
+                                },
+                                {
+                                    "curveType": "Line",
+                                    "graphID": "",
+                                    "id": "35c70246-a7ef-4111-ae7d-267e27583123",
+                                    "left_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "right_control": {
+                                        "x": 0.0,
+                                        "y": 0.0
+                                    },
+                                    "time_offset": v_duration,
+                                    "values": [
+                                      KFTypePositionX[1]
+                                    ]
+                                }
+                            ],
+                            "material_id": "",
+                            "property_type": "KFTypePositionX"
           }, {
             "id": "AD6878B6-A8BE-4afb-96A0-321427683E91",
             "keyframe_list": [
@@ -977,7 +1080,7 @@ app
                     },
                     "time_offset": 0,
                     "values": [
-                        1.3
+                      KFTypeScaleY[0]
                     ]
                 },
                 {
@@ -994,13 +1097,53 @@ app
                     },
                     "time_offset": v_duration,
                     "values": [
-                        1.3
+                      KFTypeScaleY[1]
                     ]
                 }
             ],
             "material_id": "",
             "property_type": "KFTypeScaleY"
-        }],
+        },{
+          "id": "AD6878B6-A8BE-4afb-96A0-321427683E91",
+          "keyframe_list": [
+              {
+                  "curveType": "Line",
+                  "graphID": "",
+                  "id": "D37CE0A8-85E6-424e-8FD2-46AC71807D99",
+                  "left_control": {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "right_control": {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "time_offset": 0,
+                  "values": [
+                    KFTypeScaleX[0]
+                  ]
+              },
+              {
+                  "curveType": "Line",
+                  "graphID": "",
+                  "id": "EE18847B-D4E1-475c-B8C7-3380179B1E4D",
+                  "left_control": {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "right_control": {
+                      "x": 0.0,
+                      "y": 0.0
+                  },
+                  "time_offset": v_duration,
+                  "values": [
+                    KFTypeScaleX[1]
+                  ]
+              }
+          ],
+          "material_id": "",
+          "property_type": "KFTypeScaleX"
+      }],
           enable_adjust: true,
           enable_color_curves: true,
           enable_color_wheels: true,

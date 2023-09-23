@@ -1,8 +1,25 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { NAlert, NButton, NDrawer, NDrawerContent, NForm, NFormItem, NInput } from 'naive-ui'
-import { createPeople, editPeople } from '@/api'
+import { NAlert, NButton, NDrawer, NDrawerContent, NForm, NFormItem, NInput ,NSlider,NSelect} from 'naive-ui'
+import { createPeople, editPeople,getVoiceLists } from '@/api'
 import { SvgIcon } from '@/components/common'
+
+interface Props {
+  novel_id: number
+}
+
+const props = defineProps<Props>()
+
+const voiceLists = ref([]);
+
+function getVoice(){
+  getVoiceLists({}).then((res)=>{
+    let data:any = res.data;
+    voiceLists.value = data;
+  })
+}
+
+getVoice();
 
 interface Emit {
   (e: 'fresh'): void
@@ -15,13 +32,19 @@ const showInner = ref(false)
 interface Form {
   prompt: string
   id: number
+  novel_id: number
   name: string
+  voice: string
+  voice_speed: number
 }
 
 const form = ref<Form>({
   id: 0,
   prompt: '',
   name: '',
+  novel_id: 0,
+  voice: '',
+  voice_speed: 1,
 })
 
 function load() {
@@ -30,6 +53,7 @@ function load() {
 }
 
 function saveRole() {
+  form.value.novel_id = props.novel_id
   if (form.value.id > 0) {
     editPeople(form.value).then(() => {
       load()
@@ -89,29 +113,23 @@ const title = computed(() => {
                 placeholder="名称"
               />
             </NFormItem>
-            <!-- <NFormItem label="描述(展示作用)">
-              <NInput
-                v-model:value="form.desc"
-                :rows="1"
-                type="textarea"
-                placeholder="描述"
-              />
-            </NFormItem> -->
             <NFormItem label="指令">
               <div class="flex flex-col w-full">
-                <NAlert :show-icon="false">
-                  输入[ ]可插入输入框，输入[{选项1,选项2}]可插入下拉选项)
-                </NAlert>
                 <NInput
                   v-model:value="form.prompt"
                   class="w-full"
                   round
                   :rows="5"
                   type="textarea"
-                  placeholder="示例：请将以下内容：[请输入需要翻译的内容]，翻译成[请选择语言{英语,日语,法语}]"
+                  placeholder="指令"
                 />
               </div>
             </NFormItem>
+            <NFormItem label="配音">
+              <NSelect  v-model:value="form.voice" value-field="code" label-field="name" :options="voiceLists"  placeholder="配音"/>
+            </NFormItem>
+
+          
           </NForm>
         </div>
         <template #footer>

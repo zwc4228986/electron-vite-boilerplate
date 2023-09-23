@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { NAlert, NButton, NDrawer, NDrawerContent, NForm, NFormItem, NInput } from 'naive-ui'
+import { computed, ref, watch } from 'vue'
+import { NTabs,NTabPane, NButton, NDrawer, NDrawerContent, NForm, NFormItem, NInput ,NSlider} from 'naive-ui'
 import { createNovelChapter, editNovelChapter } from '@/api'
 import { SvgIcon } from '@/components/common'
 
 interface Emit {
   (e: 'fresh'): void
 }
+
+interface Props {
+  novel_id: number
+}
+
+const props = defineProps<Props>()
+
 
 const emit = defineEmits<Emit>()
 
@@ -15,11 +22,15 @@ const showInner = ref(false)
 interface Form {
   id: number
   title: string
+  novel_id: number
+  voice_speed: number
 }
 
 const form = ref<Form>({
   id: 0,
   title: '',
+  novel_id:0,
+  voice_speed:1,
 })
 
 function load() {
@@ -28,6 +39,7 @@ function load() {
 }
 
 function saveRole() {
+  form.value.novel_id = props.novel_id
   if (form.value.id > 0) {
     editNovelChapter(form.value).then(() => {
       load()
@@ -70,21 +82,32 @@ const title = computed(() => {
     </template>
     创建作品
   </NButton>
-  <div class="absolute left-1/2 transform -translate-x-1/2  flex justify-center items-center z-40 mt-2">
+  <div class="absolute left-1/2 transform -translate-x-1/2  flex justify-center items-center z-40 ">
     <NDrawer v-model:show="showInner" width="100%" placement="right">
       <NDrawerContent :title="title" closable>
+        <NTabs
+      type="segment"
+      animated
+      default-value="basic"
+    >
+      <NTabPane tab="基础" name="basic">
         <div class="p-2">
           <NForm
             :label-width="200"
             :model="form"
             size="large"
           >
-            <NFormItem label="名称">
+            <NFormItem label="作品名称">
               <NInput
                 v-model:value="form.title"
                 placeholder="名称"
               />
             </NFormItem>
+
+            <NFormItem label="配音语速">
+                <NSlider v-model:value="form.voice_speed"  :min="0.5" :max="2" show-tooltip :step="0.1"/>
+            </NFormItem>
+            
             <!-- <NFormItem label="描述(展示作用)">
               <NInput
                 v-model:value="form.desc"
@@ -110,6 +133,8 @@ const title = computed(() => {
             </NFormItem> -->
           </NForm>
         </div>
+      </NTabPane>
+    </NTabs>
         <template #footer>
           <div class="flex justify-center items-center w-full">
             <NButton size="large" type="primary" round @click="saveRole()">

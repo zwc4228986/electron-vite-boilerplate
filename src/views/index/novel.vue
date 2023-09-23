@@ -1,11 +1,11 @@
 <script setup lang='ts'>
 import type { CSSProperties } from 'vue'
 import { computed, ref, watch } from 'vue'
-import { NButton, NLayoutSider,NScrollbar,NPopconfirm } from 'naive-ui'
+import { NButton, NLayoutSider,NScrollbar,NPopconfirm,NInput } from 'naive-ui'
 
 import { useAppStore ,useNovelStore} from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-import { addNovel, myNovel } from '@/api'
+import { addNovel, myNovel,editNovel } from '@/api'
 
 // import { useUsingContext } from '../../hooks/useUsingContext'
 import { HoverButton, SvgIcon } from '@/components/common'
@@ -67,6 +67,10 @@ watch(
   },
 )
 
+function handleEdit(item){
+  item.isEdit = true;
+}
+
 function isWechatBrowser() {
   const ua = navigator.userAgent.toLowerCase()
   return ua.includes('micromessenger')
@@ -102,6 +106,13 @@ function handleSelect(item){
     novelStore.update(item.id,item.name)
 }
 
+function handleEnter(item){
+    editNovel(item).then(res=>{
+      item.isEdit = false
+    })
+    item.isEdit = false
+}
+
 const dataSources = ref<NovelInfo[]>([]);
 function getLists(){
     myNovel({}).then(res=>{
@@ -115,10 +126,7 @@ function getLists(){
     })
 }
 
-
-
 getLists();
-
 
 </script>
 
@@ -166,14 +174,13 @@ getLists();
               <NInput
                 v-if="item.isEdit"
                 v-model:value="item.name" size="tiny"
-                @keypress="handleEnter(item, false, $event)"
               />
               <span v-else>{{ item.name }}</span>
             </div>
             
             <div v-if="isActive(item.id)" class="absolute z-10 flex visible right-1">
               <template v-if="item.isEdit">
-                <button class="p-1" @click="handleEdit(item, false, $event)">
+                <button class="p-1" @click="handleEnter(item)">
                   <SvgIcon icon="ri:save-line" />
                 </button>
               </template>

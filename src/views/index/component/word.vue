@@ -1,14 +1,21 @@
 <template>
   <div>
+    <!-- {{ roleList }} -->
     <NDynamicInput v-model:value="data" :max="4" :on-create="onCreate">
       <template #default="{ value }">
-        <div style="display: flex; align-items: center; width: 100%">
-          <NInput v-model:value="value.word" type="text" />
+
+      <div class="flex">
+        <div class="flex flex-col w-40">
+            <NSelect v-model:value="value.voice"  :options="roleList" label-field="name" value-field="voice"  placeholder="角色"/>
+            <NSelect  :options="volice_express"  placeholder="表情" label-field="name" value-field="code"/>
         </div>
-        
+          <NInput v-model:value="value.word" type="text" />
+      </div>
+        <!-- <div style="display: flex; align-items: center; width: 100%">
+
+        </div> -->
       </template>
       <template #action="{ index, create, remove, value }">
-    
         <NButtonGroup
           size="small"
           class="ml-4 flex justify-center items-center"
@@ -39,18 +46,21 @@ import {
   NButtonGroup,
   NInput,
   NSelect,
+  NInputGroup,
   NDynamicInput,
 } from "naive-ui";
 import { computed, ref } from "vue";
 
+
 interface word {
   word: string;
+  voice: string;
   audio_path: string;
   audio_duration: number;
 }
 const emit = defineEmits(["update:value","parentCreateAudio"]);
 
-const props = defineProps(["value"]);
+const props = defineProps(["value","roleList"]);
 
 console.log(props);
 // const data =  ref(() => {
@@ -59,7 +69,13 @@ console.log(props);
 //     })
 // })
 
-const data = computed({
+
+
+
+const selectOptions = ref([
+]);
+
+const data:any = computed({
   get() {
     return props.value;
   },
@@ -72,9 +88,16 @@ const data = computed({
   },
 });
 
+const volice_express = computed(() => {
+  return props.roleList.find(item =>data.voice == item.code)?.volice_express??[]
+})
+
+
+
 function onCreate() {
   return {
     word: "",
+    voice: "",
     audio_path: "",
     audio_duration:0,
   };
